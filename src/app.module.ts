@@ -5,6 +5,7 @@ import { APP_PIPE } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { TypeOrmConfig } from './config/ormconfig';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       useClass: TypeOrmConfig,
       inject: [TypeOrmConfig],
     }),
+    UserModule
   ],
   controllers: [AppController],
   providers: [
