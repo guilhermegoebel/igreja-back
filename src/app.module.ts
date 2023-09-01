@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { APP_PIPE } from '@nestjs/core';
@@ -6,6 +6,12 @@ import { ValidationPipe } from '@nestjs/common';
 import { TypeOrmConfig } from './config/ormconfig';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
+import { BatismoModule } from './batismo/batismo.module';
+import { NestModule, MiddlewareConsumer } from '@nestjs/common/interfaces';
+import { AuthGuard } from './auth/auth.guard';
+import { JwtModule } from '@nestjs/jwt';
+import { jwtConstants } from './auth/constants';
 
 @Module({
   imports: [
@@ -13,7 +19,12 @@ import { UserModule } from './user/user.module';
       useClass: TypeOrmConfig,
       inject: [TypeOrmConfig],
     }),
-    UserModule
+    UserModule,
+    AuthModule,
+    BatismoModule,
+    JwtModule.register({
+      secret: jwtConstants.secret,
+    }),
   ],
   controllers: [AppController],
   providers: [
