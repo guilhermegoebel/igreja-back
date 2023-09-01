@@ -5,6 +5,7 @@ import { Batismo } from './batismo.entity';
 import { CreateBatismoDto } from './dto/createBatismo.dto';
 import { BatismoService } from './batismo.service';
 import { UseGuards } from '@nestjs/common/decorators/core';
+import { User } from 'src/user/user.entity';
 
 @Controller('batismo')
 export class BatismoController{
@@ -28,8 +29,15 @@ export class BatismoController{
     @Get()
     async getAllBatismos(@Request() req: any, @Res() res: Response) {
         try {
-            const batismos: Batismo[] = await this.batismoService.getAll();
-            return res.status(200).json(batismos);
+            const user: User = req.user
+            const authorization: boolean = await this.batismoService.authorization(user)
+            if(authorization){
+              const batismos: Batismo[] = await this.batismoService.getAll();
+              return res.status(200).json(batismos);
+            }else{
+              res.json({message: 'Acesso Negado'})
+            }
+            
         } catch (error) {
             throw new HttpException('Erro ao buscar lista de inscrições para o curso de batismo', HttpStatus.INTERNAL_SERVER_ERROR);
         }

@@ -1,8 +1,10 @@
-import { Injectable} from "@nestjs/common";
+import { Injectable, UnauthorizedException} from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Batismo } from "./batismo.entity";
 import { CreateBatismoDto } from "./dto/createBatismo.dto";
+import { User } from "src/user/user.entity";
+import { UserRole } from "src/user/enum/user-role.enum";
 
 
 @Injectable()
@@ -24,5 +26,14 @@ export class BatismoService{
         const batismos: Batismo[] = await this.batismoRepository.find()
         return batismos
     }
+
+      async authorization (user: User): Promise<boolean>{
+        
+        if(user.role == UserRole.ESCRITORIO_PAROQUIAL || user.role == UserRole.PASTORAL_BATISMO){
+          return true
+        }else{
+          return false
+        }
+      }
 
 }
