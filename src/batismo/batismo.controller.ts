@@ -1,16 +1,20 @@
 import { Controller, Post, Body, Res, HttpException, HttpStatus, Request, Get} from '@nestjs/common';
 import { Response } from 'express';
-import { AuthGuard, Public } from 'src/auth/auth.guard';
+import { AuthGuard, Public, Role } from 'src/auth/auth.guard';
 import { Batismo } from './batismo.entity';
 import { CreateBatismoDto } from './dto/createBatismo.dto';
 import { BatismoService } from './batismo.service';
 import { UseGuards } from '@nestjs/common/decorators/core';
 import { User } from 'src/user/user.entity';
+import { UserRole } from 'src/user/enum/user-role.enum';
 
+@UseGuards(AuthGuard)
+@Role(UserRole.PASTORAL_BATISMO)
 @Controller('batismo')
 export class BatismoController{
     constructor( private readonly batismoService: BatismoService) {}
     
+
     @Public()
     @Post('/createBatismo')
     async createUser(@Body() batismoData: CreateBatismoDto, @Res() res: Response) {
@@ -29,15 +33,8 @@ export class BatismoController{
     @Get()
     async getAllBatismos(@Request() req: any, @Res() res: Response) {
         try {
-            const user: User = req.user
-            const authorization: boolean = await this.batismoService.authorization(user)
-            if(authorization){
               const batismos: Batismo[] = await this.batismoService.getAll();
               return res.status(200).json(batismos);
-            }else{
-              res.json({message: 'Acesso Negado'})
-            }
-            
         } catch (error) {
             throw new HttpException('Erro ao buscar lista de inscrições para o curso de batismo', HttpStatus.INTERNAL_SERVER_ERROR);
         }

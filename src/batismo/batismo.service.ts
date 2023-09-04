@@ -27,13 +27,5 @@ export class BatismoService{
         return batismos
     }
 
-      async authorization (user: User): Promise<boolean>{
-        
-        if(user.role == UserRole.ESCRITORIO_PAROQUIAL || user.role == UserRole.PASTORAL_BATISMO){
-          return true
-        }else{
-          return false
-        }
-      }
 
 }

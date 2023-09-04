@@ -3,6 +3,7 @@ import { JwtService } from "@nestjs/jwt";
 import { Reflector } from "@nestjs/core";
 import { Request } from "express";
 import { jwtConstants } from "./constants";
+import { UserRole } from "src/user/enum/user-role.enum";
 
 @Injectable()
 export class AuthGuard {
@@ -30,6 +31,17 @@ export class AuthGuard {
                 secret: jwtConstants.secret
             });
             request['user'] = payload;
+
+            const currentUserRole: UserRole = payload.role
+            const requiredRole = this.reflector.getAllAndOverride<UserRole>(IS_ROLE_KEY, [
+                context.getHandler(),
+                context.getClass(),
+            ]);
+
+            if(currentUserRole != requiredRole  && currentUserRole != UserRole.ESCRITORIO_PAROQUIAL){
+                throw new UnauthorizedException();
+            }
+
         } catch {
             throw new UnauthorizedException();
         }
@@ -44,4 +56,6 @@ export class AuthGuard {
 }
 
 export const IS_PUBLIC_KEY = 'isPublic';
+export const IS_ROLE_KEY = 'roles';
 export const Public = () => SetMetadata(IS_PUBLIC_KEY, true);
+export const Role = (role: UserRole) => SetMetadata(IS_ROLE_KEY, role);
