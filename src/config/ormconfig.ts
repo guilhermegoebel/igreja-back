@@ -10,7 +10,7 @@ export class TypeOrmConfig implements TypeOrmOptionsFactory {
       host: 'localhost',
       port: 5432,
       username: 'postgres',
-      password: '75147118!!@@##',
+      password: '75147118',
       database: 'sys-database',
       entities: [__dirname+'/../**/*.entity.{js,ts}'],
       synchronize: true,
