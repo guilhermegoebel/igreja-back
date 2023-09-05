@@ -14,7 +14,6 @@ import { UpdateBatismoDto } from './dto/updateBatismo.dto';
 export class BatismoController {
   constructor(private readonly batismoService: BatismoService) { }
 
-
   @Public()
   @Post('/createBatismo')
   async createUser(@Body() batismoData: CreateBatismoDto, @Res() res: Response) {
