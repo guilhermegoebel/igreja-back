@@ -3,9 +3,9 @@ import { AppModule } from './app.module';
 import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
 import { ValidationPipe } from '@nestjs/common/pipes';
 import { config } from 'dotenv';
+config();
 
 async function bootstrap() {
-  config();
   const app = await NestFactory.create(AppModule);
 
   const corsOptions: CorsOptions = {

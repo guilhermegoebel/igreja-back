@@ -3,7 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { APP_PIPE } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
-import { TypeOrmConfig } from './config/ormconfig';
+import { TypeOrmConfig } from './config/typeorm.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
@@ -23,7 +23,7 @@ import { jwtConstants } from './auth/constants';
     AuthModule,
     BatismoModule,
     JwtModule.register({
-      secret: jwtConstants.secret,
+      secret: process.env.JWT_SECRET,
     }),
   ],
   controllers: [AppController],
