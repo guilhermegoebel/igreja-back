@@ -23,7 +23,7 @@ import { jwtConstants } from './auth/constants';
     AuthModule,
     BatismoModule,
     JwtModule.register({
-      secret: process.env.JWT_SECRET,
+      secret: jwtConstants.secret,
     }),
   ],
   controllers: [AppController],
