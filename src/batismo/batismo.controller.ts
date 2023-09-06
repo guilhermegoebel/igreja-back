@@ -72,7 +72,7 @@ export class BatismoController {
       await this.batismoService.deleteBatismo(batismoId);
       res.status(204).send();
     } catch (error) {
-      throw new HttpException('Erro ao excluir usuário', HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new HttpException('Erro ao excluir inscrição para o curso de batismo', HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 

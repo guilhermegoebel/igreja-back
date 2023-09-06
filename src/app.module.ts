@@ -1,4 +1,4 @@
-import { Module, RequestMethod } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { APP_PIPE } from '@nestjs/core';
@@ -8,10 +8,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { BatismoModule } from './batismo/batismo.module';
-import { NestModule, MiddlewareConsumer } from '@nestjs/common/interfaces';
-import { AuthGuard } from './auth/auth.guard';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './auth/constants';
+import { NoivaModule } from './noiva/noiva.module';
 
 @Module({
   imports: [
@@ -22,6 +21,7 @@ import { jwtConstants } from './auth/constants';
     UserModule,
     AuthModule,
     BatismoModule,
+    NoivaModule,
     JwtModule.register({
       secret: jwtConstants.secret,
     }),
