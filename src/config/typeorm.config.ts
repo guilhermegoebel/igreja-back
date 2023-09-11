@@ -13,7 +13,6 @@ export class TypeOrmConfig implements TypeOrmOptionsFactory {
       password: process.env.DB_PASSWORD,
       database: 'sys-database',
       entities: [__dirname+'/../**/*.entity.{js,ts}'],
-      synchronize: true,
     };
   }
 }
