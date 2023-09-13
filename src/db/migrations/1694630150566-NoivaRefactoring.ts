@@ -15,3 +15,4 @@ export class NoivaRefactoring1694470814389 implements MigrationInterface {
     }
 
 }
+
