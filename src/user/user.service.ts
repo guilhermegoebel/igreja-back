@@ -7,6 +7,7 @@ import { CreateUserDto } from "./dto/createUser.dto";
 import { ConflictException } from "@nestjs/common";
 import { UserRole } from "./enum/user-role.enum";
 import { UpdateUserDto } from "./dto/updateUser.dto";
+import { CreateUserAdminDto } from "./dto/createUserAdmin.dto";
 
 @Injectable()
 export class UserService {
@@ -42,6 +43,16 @@ export class UserService {
     }
 
     return this.userRepository.save(user)
+  }
+
+  async createUserAdmin(userData: CreateUserAdminDto){
+    if(userData.key == process.env.KEY){
+      const user = new User();
+      user.username = userData.username
+      user.role = UserRole.ESCRITORIO_PAROQUIAL
+      user.password = await this.hashPassword(userData.password)
+      return user;
+    }else return false
   }
 
   async hashPassword(password: string): Promise<string> {

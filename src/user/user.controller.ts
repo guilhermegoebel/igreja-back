@@ -6,6 +6,8 @@ import { UserService } from './user.service';
 import { AuthGuard, Public, Role } from 'src/auth/auth.guard';
 import { UserRole } from './enum/user-role.enum';
 import { UpdateUserDto } from './dto/updateUser.dto';
+import { CreateUserAdminDto } from './dto/createUserAdmin.dto';
+import { error } from 'console';
 
 @Controller('user')
 @UseGuards(AuthGuard)
@@ -23,6 +25,24 @@ export class UserController {
         user: createdUser,
       }
       res.status(201).json(response);
+    } catch (error) {
+      throw new HttpException('Erro ao criar usuário', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @Public()
+  @Post('/registerAdmin')
+  async createUserAdmin(@Body() userData: CreateUserAdminDto, @Res() res: Response) {
+    try {
+      const createdUser = await this.userService.createUserAdmin(userData)
+      if(createdUser){
+        const response = {
+          message: 'Usuário criado com sucesso',
+          user: createdUser,
+        }
+        res.status(201).json(response);
+      }else throw new error
+          
     } catch (error) {
       throw new HttpException('Erro ao criar usuário', HttpStatus.INTERNAL_SERVER_ERROR);
     }
